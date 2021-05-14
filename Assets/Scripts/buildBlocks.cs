@@ -9,7 +9,8 @@ public class buildBlocks : MonoBehaviour
     [SerializeField]
     private GameObject jengaBlock;
 
-    private float xgap = 0.21f , zgap = 0.21f;
+    public float zoffset, yoffset, xoffset;
+    private float xgap , zgap, ygap;
     private Vector3 spawnPoint ;
     private bool firstBlock = true;
     // Start is called before the first frame update
@@ -17,6 +18,10 @@ public class buildBlocks : MonoBehaviour
    
     void Start()
     {
+
+        zgap = (jengaBlock.transform.lossyScale.z / 2) + zoffset;
+        ygap = (jengaBlock.transform.lossyScale.y) + yoffset;
+        xgap = (jengaBlock.transform.lossyScale.z / 2) + xoffset;
         spawnPoint = startPos.transform.position;
         for(int loop=1;loop<=18;loop++)
         {
@@ -32,10 +37,6 @@ public class buildBlocks : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void facingXblocks()
     {
@@ -45,11 +46,11 @@ public class buildBlocks : MonoBehaviour
         {
             float zgapp = firstBlock ? 0 : zgap;
             GameObject tempBlockX = Instantiate(jengaBlock, spawnPoint - new Vector3(0, 0, zgapp), Quaternion.identity);
-            tempBlockX.transform.SetParent(startPos.transform);
+            //tempBlockX.transform.SetParent(startPos.transform);
             zgap *= -1;
             firstBlock = false;
         }
-        spawnPoint += new Vector3(0, 0.2f, 0);
+        spawnPoint += new Vector3(0, ygap , 0);
     }  
 
     private void facingZblocks()
@@ -59,10 +60,10 @@ public class buildBlocks : MonoBehaviour
         {
             float xgapp = firstBlock ? 0 : xgap;
             GameObject tempBlockZ = Instantiate(jengaBlock, spawnPoint - new Vector3(xgapp, 0, 0), Quaternion.Euler(0,90,0));
-            tempBlockZ.transform.SetParent(startPos.transform);
+            //tempBlockZ.transform.SetParent(startPos.transform);
             xgap *= -1;
             firstBlock = false;
         }
-        spawnPoint += new Vector3(0, 0.2f, 0);
+        spawnPoint += new Vector3(0, ygap , 0);
     }
 }
